@@ -10,60 +10,31 @@ export default class Yatzy {
   }
 
   static yatzy(...args: number[]): number {
-    if (args.every((v) => v === args[0])) {
+    if (args.every((num) => num === args[0])) {
       return 50;
     }
     return 0;
   }
 
-  static ones(
-    d1: number,
-    d2: number,
-    d3: number,
-    d4: number,
-    d5: number
-  ): number {
-    var sum = 0;
-    if (d1 == 1) sum++;
-    if (d2 == 1) sum++;
-    if (d3 == 1) sum++;
-    if (d4 == 1) sum++;
-    if (d5 == 1) sum++;
-
-    return sum;
+  static ones(...args: number[]): number {
+    if (args.some((num) => num === 1)) {
+      return args.filter((num) => num === 1).reduce((a, b) => a + b);
+    }
+    return 0;
   }
 
-  static twos(
-    d1: number,
-    d2: number,
-    d3: number,
-    d4: number,
-    d5: number
-  ): number {
-    var sum = 0;
-    if (d1 == 2) sum += 2;
-    if (d2 == 2) sum += 2;
-    if (d3 == 2) sum += 2;
-    if (d4 == 2) sum += 2;
-    if (d5 == 2) sum += 2;
-    return sum;
+  static twos(...args: number[]): number {
+    if (args.some((num) => num === 2)) {
+      return args.filter((num) => num === 2).reduce((a, b) => a + b);
+    }
+    return 0;
   }
 
-  static threes(
-    d1: number,
-    d2: number,
-    d3: number,
-    d4: number,
-    d5: number
-  ): number {
-    var s;
-    s = 0;
-    if (d1 == 3) s += 3;
-    if (d2 == 3) s += 3;
-    if (d3 == 3) s += 3;
-    if (d4 == 3) s += 3;
-    if (d5 == 3) s += 3;
-    return s;
+  static threes(...args: number[]): number {
+    if (args.some((num) => num === 3)) {
+      return args.filter((num) => num === 3).reduce((a, b) => a + b);
+    }
+    return 0;
   }
 
   static score_pair(
@@ -233,27 +204,23 @@ export default class Yatzy {
   }
 
   fours(): number {
-    var sum;
-    sum = 0;
-    for (let at = 0; at != 5; at++) {
-      if (this.dice[at] == 4) {
-        sum += 4;
-      }
+    if (this.dice.some((num) => num === 4)) {
+      return this.dice.filter((num) => num === 4).reduce((a, b) => a + b);
     }
-    return sum;
+    return 0;
   }
 
   fives(): number {
-    let s = 0;
-    var i;
-    for (i = 0; i < this.dice.length; i++) if (this.dice[i] == 5) s = s + 5;
-    return s;
+    if (this.dice.some((num) => num === 5)) {
+      return this.dice.filter((num) => num === 5).reduce((a, b) => a + b);
+    }
+    return 0;
   }
 
   sixes(): number {
-    let sum = 0;
-    for (var at = 0; at < this.dice.length; at++)
-      if (this.dice[at] == 6) sum = sum + 6;
-    return sum;
+    if (this.dice.some((num) => num === 6)) {
+      return this.dice.filter((num) => num === 6).reduce((a, b) => a + b);
+    }
+    return 0;
   }
 }
