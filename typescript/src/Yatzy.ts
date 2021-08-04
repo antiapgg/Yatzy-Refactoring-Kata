@@ -185,45 +185,22 @@ export default class Yatzy {
     return 0;
   }
 
-  static fullhousee(...args: number[]): number {
-    console.log(args.sort((a, b) => a - b));
+  static fullHouse(...args: number[]): number {
+    var unics = args
+      .sort((a, b) => a - b)
+      .filter((num, index, array) => {
+        return array.indexOf(num) === index;
+      });
+    if (unics.length === 2) {
+      if (
+        args.filter((x) => x === unics[0]).length === 2 ||
+        args.filter((x) => x === unics[1]).length === 2
+      )
+        return (
+          args.filter((x) => x === unics[0]).length * unics[0] +
+          args.filter((x) => x === unics[1]).length * unics[1]
+        );
+    }
     return 0;
-  }
-  static fullHouse(
-    d1: number,
-    d2: number,
-    d3: number,
-    d4: number,
-    d5: number
-  ): number {
-    Yatzy.fullhousee(d1, d2, d3, d4, d5);
-    var tallies;
-    var _2 = false;
-    var i;
-    var _2_at = 0;
-    var _3 = false;
-    var _3_at = 0;
-
-    tallies = [0, 0, 0, 0, 0, 0, 0, 0];
-    tallies[d1 - 1] += 1;
-    tallies[d2 - 1] += 1;
-    tallies[d3 - 1] += 1;
-    tallies[d4 - 1] += 1;
-    tallies[d5 - 1] += 1;
-
-    for (i = 0; i != 6; i += 1)
-      if (tallies[i] == 2) {
-        _2 = true;
-        _2_at = i + 1;
-      }
-
-    for (i = 0; i != 6; i += 1)
-      if (tallies[i] == 3) {
-        _3 = true;
-        _3_at = i + 1;
-      }
-
-    if (_2 && _3) return _2_at * 2 + _3_at * 3;
-    else return 0;
   }
 }
