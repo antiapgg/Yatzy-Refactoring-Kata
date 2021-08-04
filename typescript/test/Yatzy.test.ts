@@ -100,6 +100,7 @@ describe("Small straight", () => {
     assert.strictEqual(15, Yatzy.smallStraight(1, 2, 3, 4, 5));
     assert.strictEqual(15, Yatzy.smallStraight(2, 3, 4, 5, 1));
     assert.strictEqual(0, Yatzy.smallStraight(1, 2, 2, 4, 5));
+    assert.strictEqual(0, Yatzy.smallStraight(1, 5, 2, 2, 5));
   });
 });
 
@@ -108,12 +109,16 @@ describe("Large straight", () => {
     assert.strictEqual(20, Yatzy.largeStraight(6, 2, 3, 4, 5));
     assert.strictEqual(20, Yatzy.largeStraight(2, 3, 4, 5, 6));
     assert.strictEqual(0, Yatzy.largeStraight(1, 2, 2, 4, 5));
+    assert.strictEqual(0, Yatzy.largeStraight(7, 2, 2, 4, 5));
   });
 });
 
 describe("Full house", () => {
   it("scores the sum of the full house", () => {
     assert.strictEqual(18, Yatzy.fullHouse(6, 2, 2, 2, 6));
+    assert.strictEqual(8, Yatzy.fullHouse(1, 1, 2, 2, 2));
     assert.strictEqual(0, Yatzy.fullHouse(2, 3, 4, 5, 6));
+    assert.strictEqual(0, Yatzy.fullHouse(2, 2, 3, 3, 4));
+    assert.strictEqual(0, Yatzy.fullHouse(2, 2, 2, 2, 2));
   });
 });

@@ -17,22 +17,32 @@ export default class Yatzy {
   }
 
   static ones(...args: number[]): number {
-    if (args.some((num) => num === 1)) {
-      return args.filter((num) => num === 1).reduce((a, b) => a + b);
-    }
-    return 0;
+    return Yatzy.sumOfNumbers(1, args);
   }
 
   static twos(...args: number[]): number {
-    if (args.some((num) => num === 2)) {
-      return args.filter((num) => num === 2).reduce((a, b) => a + b);
-    }
-    return 0;
+    return Yatzy.sumOfNumbers(2, args);
   }
 
   static threes(...args: number[]): number {
-    if (args.some((num) => num === 3)) {
-      return args.filter((num) => num === 3).reduce((a, b) => a + b);
+    return Yatzy.sumOfNumbers(3, args);
+  }
+
+  fours(): number {
+    return Yatzy.sumOfNumbers(4, this.dice);
+  }
+
+  fives(): number {
+    return Yatzy.sumOfNumbers(5, this.dice);
+  }
+
+  sixes(): number {
+    return Yatzy.sumOfNumbers(6, this.dice);
+  }
+
+  static sumOfNumbers(kindOfNumber: number, args: number[]): number {
+    if (args.some((num) => num === kindOfNumber)) {
+      return args.filter((num) => num === kindOfNumber).reduce((a, b) => a + b);
     }
     return 0;
   }
@@ -50,9 +60,15 @@ export default class Yatzy {
     counts[d3 - 1]++;
     counts[d4 - 1]++;
     counts[d5 - 1]++;
+    // console.log(counts);
     var at;
     for (at = 0; at != 6; at++)
-      if (counts[6 - at - 1] >= 2) return (6 - at) * 2;
+      if (counts[6 - at - 1] >= 2) {
+        /*console.log("AT: ", at);
+        console.log("counts: ", counts[6 - at - 1]);
+        console.log("return: ", (6 - at) * 2); */
+        return (6 - at) * 2;
+      }
     return 0;
   }
 
@@ -116,26 +132,16 @@ export default class Yatzy {
     return 0;
   }
 
-  static smallStraight(
-    d1: number,
-    d2: number,
-    d3: number,
-    d4: number,
-    d5: number
-  ): number {
-    var tallies;
-    tallies = [0, 0, 0, 0, 0, 0, 0];
-    tallies[d1 - 1] += 1;
-    tallies[d2 - 1] += 1;
-    tallies[d3 - 1] += 1;
-    tallies[d4 - 1] += 1;
-    tallies[d5 - 1] += 1;
+  static smallStraight(...args: number[]): number {
     if (
-      tallies[0] == 1 &&
-      tallies[1] == 1 &&
-      tallies[2] == 1 &&
-      tallies[3] == 1 &&
-      tallies[4] == 1
+      args
+        .sort((a, b) => a - b)
+        .filter((num) => {
+          if (num === 1 && args.indexOf(num) === 0) return true;
+          if (num === args[(args.indexOf(num) - 1) % 5] + 1) return true;
+          return false;
+        })
+        .reduce((a, b) => a + b) === 15
     )
       return 15;
     return 0;
@@ -149,6 +155,7 @@ export default class Yatzy {
     d5: number
   ): number {
     var tallies;
+    Yatzy.largeStraightt(d1, d2, d3, d4, d5);
     tallies = [0, 0, 0, 0, 0, 0, 0, 0];
     tallies[d1 - 1] += 1;
     tallies[d2 - 1] += 1;
@@ -165,7 +172,23 @@ export default class Yatzy {
       return 20;
     return 0;
   }
+  static largeStraightt(...args: number[]): number {
+    /* console.log(
+      args
+        .sort((a, b) => a - b)
+        .filter((num) => num === args[(args.indexOf(num) + 1) % 5] - 1)
+        .reduce((a, b) => a + b)
+    );
+    console.log(args);
+    console.log(6 % 6);
+    console.log(5 % 5); */
+    return 0;
+  }
 
+  static fullhousee(...args: number[]): number {
+    console.log(args.sort((a, b) => a - b));
+    return 0;
+  }
   static fullHouse(
     d1: number,
     d2: number,
@@ -173,6 +196,7 @@ export default class Yatzy {
     d4: number,
     d5: number
   ): number {
+    Yatzy.fullhousee(d1, d2, d3, d4, d5);
     var tallies;
     var _2 = false;
     var i;
@@ -201,26 +225,5 @@ export default class Yatzy {
 
     if (_2 && _3) return _2_at * 2 + _3_at * 3;
     else return 0;
-  }
-
-  fours(): number {
-    if (this.dice.some((num) => num === 4)) {
-      return this.dice.filter((num) => num === 4).reduce((a, b) => a + b);
-    }
-    return 0;
-  }
-
-  fives(): number {
-    if (this.dice.some((num) => num === 5)) {
-      return this.dice.filter((num) => num === 5).reduce((a, b) => a + b);
-    }
-    return 0;
-  }
-
-  sixes(): number {
-    if (this.dice.some((num) => num === 6)) {
-      return this.dice.filter((num) => num === 6).reduce((a, b) => a + b);
-    }
-    return 0;
   }
 }
