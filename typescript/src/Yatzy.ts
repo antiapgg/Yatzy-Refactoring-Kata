@@ -147,41 +147,18 @@ export default class Yatzy {
     return 0;
   }
 
-  static largeStraight(
-    d1: number,
-    d2: number,
-    d3: number,
-    d4: number,
-    d5: number
-  ): number {
-    var tallies;
-    Yatzy.largeStraightt(d1, d2, d3, d4, d5);
-    tallies = [0, 0, 0, 0, 0, 0, 0, 0];
-    tallies[d1 - 1] += 1;
-    tallies[d2 - 1] += 1;
-    tallies[d3 - 1] += 1;
-    tallies[d4 - 1] += 1;
-    tallies[d5 - 1] += 1;
+  static largeStraight(...args: number[]): number {
     if (
-      tallies[1] == 1 &&
-      tallies[2] == 1 &&
-      tallies[3] == 1 &&
-      tallies[4] == 1 &&
-      tallies[5] == 1
-    )
-      return 20;
-    return 0;
-  }
-  static largeStraightt(...args: number[]): number {
-    /* console.log(
       args
         .sort((a, b) => a - b)
-        .filter((num) => num === args[(args.indexOf(num) + 1) % 5] - 1)
-        .reduce((a, b) => a + b)
-    );
-    console.log(args);
-    console.log(6 % 6);
-    console.log(5 % 5); */
+        .filter((num) => {
+          if (num === 2 && args.indexOf(num) === 0) return true;
+          if (num === args[(args.indexOf(num) - 1) % 5] + 1) return true;
+          return false;
+        })
+        .reduce((a, b) => a + b) === 20
+    )
+      return 20;
     return 0;
   }
 
