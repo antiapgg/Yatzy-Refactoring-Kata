@@ -74,40 +74,28 @@ export default class Yatzy {
       .reduce((a, b) => a * 2 + b * 2);
   }
 
-  static four_of_a_kind(
-    _1: number,
-    _2: number,
-    d3: number,
-    d4: number,
-    d5: number
-  ): number {
-    var tallies;
-    tallies = [0, 0, 0, 0, 0, 0, 0, 0];
-    tallies[_1 - 1]++;
-    tallies[_2 - 1]++;
-    tallies[d3 - 1]++;
-    tallies[d4 - 1]++;
-    tallies[d5 - 1]++;
-    for (let i = 0; i < 6; i++) if (tallies[i] >= 4) return (i + 1) * 4;
-    return 0;
+  static four_of_a_kind(...args: number[]): number {
+    var unics = args.filter((num, index, array) => {
+      return array.indexOf(num) === index;
+    });
+    var quantities: number[] = [];
+    for (let i = 0; i < unics.length; i++) {
+      quantities[i] = args.filter((x) => x === unics[i]).length;
+    }
+    unics.filter((x) => quantities[unics.indexOf(x)] === 4);
+    return unics[0] * 4;
   }
 
-  static three_of_a_kind(
-    d1: number,
-    d2: number,
-    d3: number,
-    d4: number,
-    d5: number
-  ): number {
-    var t;
-    t = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-    t[d1 - 1]++;
-    t[d2 - 1]++;
-    t[d3 - 1]++;
-    t[d4 - 1]++;
-    t[d5 - 1]++;
-    for (let i = 0; i < 6; i++) if (t[i] >= 3) return (i + 1) * 3;
-    return 0;
+  static three_of_a_kind(...args: number[]): number {
+    var unics = args.filter((num, index, array) => {
+      return array.indexOf(num) === index;
+    });
+    var quantities: number[] = [];
+    for (let i = 0; i < unics.length; i++) {
+      quantities[i] = args.filter((x) => x === unics[i]).length;
+    }
+    unics.filter((x) => quantities[unics.indexOf(x)] === 3);
+    return unics[0] * 3;
   }
 
   static smallStraight(...args: number[]): number {
