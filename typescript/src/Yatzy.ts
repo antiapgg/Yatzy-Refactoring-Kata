@@ -47,53 +47,31 @@ export default class Yatzy {
     return 0;
   }
 
-  static score_pair(
-    d1: number,
-    d2: number,
-    d3: number,
-    d4: number,
-    d5: number
-  ): number {
-    var counts = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-    counts[d1 - 1]++;
-    counts[d2 - 1]++;
-    counts[d3 - 1]++;
-    counts[d4 - 1]++;
-    counts[d5 - 1]++;
-    // console.log(counts);
-    var at;
-    for (at = 0; at != 6; at++)
-      if (counts[6 - at - 1] >= 2) {
-        /*console.log("AT: ", at);
-        console.log("counts: ", counts[6 - at - 1]);
-        console.log("return: ", (6 - at) * 2); */
-        return (6 - at) * 2;
-      }
-    return 0;
+  static score_pair(...args: number[]): number {
+    var unics = args
+      .sort((a, b) => a - b)
+      .filter((num, index, array) => {
+        return array.indexOf(num) === index;
+      });
+    var quantities = [];
+    for (let i = 0; i < unics.length; i++) {
+      quantities[i] = args.filter((x) => x === unics[i]).length;
+    }
+
+    return unics[quantities.lastIndexOf(2)] * 2;
   }
 
-  static two_pair(
-    d1: number,
-    d2: number,
-    d3: number,
-    d4: number,
-    d5: number
-  ): number {
-    var counts = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-    counts[d1 - 1]++;
-    counts[d2 - 1]++;
-    counts[d3 - 1]++;
-    counts[d4 - 1]++;
-    counts[d5 - 1]++;
-    var n = 0;
-    var score = 0;
-    for (let i = 0; i < 6; i += 1)
-      if (counts[6 - i - 1] >= 2) {
-        n++;
-        score += 6 - i;
-      }
-    if (n == 2) return score * 2;
-    else return 0;
+  static two_pair(...args: number[]): number {
+    var unics = args.filter((num, index, array) => {
+      return array.indexOf(num) === index;
+    });
+    var quantities: number[] = [];
+    for (let i = 0; i < unics.length; i++) {
+      quantities[i] = args.filter((x) => x === unics[i]).length;
+    }
+    return unics
+      .filter((x) => quantities[unics.indexOf(x)] >= 2)
+      .reduce((a, b) => a * 2 + b * 2);
   }
 
   static four_of_a_kind(
